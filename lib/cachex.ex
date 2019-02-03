@@ -620,7 +620,7 @@ defmodule Cachex do
    ## Examples
 
       iex> Cachex.put(:my_cache, "key", "value")
-      iex> Cachex.list(:my_cache)
+      iex> Cachex.export(:my_cache)
       { :ok, [ { :entry, "key", 1538714590095, nil, "value" } ] }
 
   """
@@ -1317,7 +1317,7 @@ defmodule Cachex do
       { :ok, nil }
 
   """
-  @spec ttl(cache, any, Keyword.t) :: { status, number }
+  @spec ttl(cache, any, Keyword.t) :: { status, integer | nil }
   def ttl(cache, key, options \\ []) when is_list(options),
     do: Router.call(cache, { :ttl, [ key, options ] })
 

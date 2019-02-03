@@ -1,7 +1,7 @@
 defmodule Cachex.Mixfile do
   use Mix.Project
 
-  @version "3.1.1"
+  @version "3.1.3"
   @url_docs "http://hexdocs.pm/cachex"
   @url_github "https://github.com/whitfin/cachex"
 
@@ -75,7 +75,7 @@ defmodule Cachex.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [
-      applications: [:logger, :eternal],
+      applications: [:logger, :eternal, :sleeplocks],
       mod: {Cachex.Application, []}
     ]
   end
@@ -92,9 +92,10 @@ defmodule Cachex.Mixfile do
   defp deps do
     [
       # Production dependencies
-      { :eternal, "~> 1.2" },
-      { :jumper,  "~> 1.0" },
-      { :unsafe,  "~> 1.0" },
+      { :eternal,     "~> 1.2" },
+      { :jumper,      "~> 1.0" },
+      { :sleeplocks,  "~> 1.1" },
+      { :unsafe,      "~> 1.0" },
       # Testing dependencies
       { :excoveralls,   "~> 0.8", optional: true, only: [ :cover ] },
       { :local_cluster, "~> 1.0", optional: true, only: [ :cover, :test ] },
