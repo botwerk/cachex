@@ -77,6 +77,7 @@ defmodule Cachex do
     fetch:          [ 2, 3, 4 ],
     get:               [ 2, 3 ],
     get_and_update:    [ 3, 4 ],
+    import:            [ 2, 3 ],
     incr:           [ 2, 3, 4 ],
     inspect:           [ 2, 3 ],
     invoke:            [ 3, 4 ],
@@ -535,7 +536,7 @@ defmodule Cachex do
   def execute(cache, operation, options \\ [])
   when is_function(operation, 1) and is_list(options) do
     Overseer.enforce(cache) do
-      operation.(cache)
+      { :ok, operation.(cache) }
     end
   end
 
@@ -624,7 +625,7 @@ defmodule Cachex do
       { :ok, [ { :entry, "key", 1538714590095, nil, "value" } ] }
 
   """
-  @spec export(cache, Keyword.t) :: { status, [ cache ] }
+  @spec export(cache, Keyword.t) :: { status, [ Spec.entry ] }
   def export(cache, options \\ []) when is_list(options),
     do: Router.call(cache, { :export, [ options ] })
 
@@ -755,6 +756,24 @@ defmodule Cachex do
   @spec keys(cache, Keyword.t) :: { status, [ any ] }
   def keys(cache, options \\ []) when is_list(options),
     do: Router.call(cache, { :keys, [ options ] })
+
+  @doc """
+  Imports an export set into a cache.
+
+  This provides a raw import of a previously exported cache via the use
+  of the `export/2` command.
+
+   ## Examples
+
+      iex> Cachex.put(:my_cache, "key", "value")
+      iex> Cachex.import(:my_cache, [ { :entry, "key", 1538714590095, nil, "value" } ])
+      { :ok, true }
+
+  """
+  @spec import(cache, [ Spec.entry ], Keyword.t) :: { status, any }
+  def import(cache, entries, options \\ [])
+  when is_list(entries) and is_list(options),
+    do: Router.call(cache, { :import, [ entries, options ] })
 
   @doc """
   Increments an entry in the cache.
