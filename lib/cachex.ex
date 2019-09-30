@@ -156,6 +156,18 @@ defmodule Cachex do
       the `Cachex.Spec.command/1` documentation for further customization options.
 
       </br>
+    * `:compressed`
+
+      </br>
+      This option will specify whether this cache should have enable ETS compression,
+      which is likely to reduce memory overhead. Please note that there is a potential
+      for this option to slow your cache due to compression overhead, so benchmark as
+      appropriate when using this option. This option defaults to `false`.
+
+          iex> Cachex.start_link(:my_cache, [ compressed: true ])
+          { :ok, _pid }
+
+      </br>
     * `:expiration`
 
       </br>
@@ -579,7 +591,7 @@ defmodule Cachex do
       { :ok, false }
 
   """
-  @spec expire(cache, any, number, Keyword.t) :: { status, boolean }
+  @spec expire(cache, any, number | nil, Keyword.t) :: { status, boolean }
   def expire(cache, key, expiration, options \\ [])
   when (is_nil(expiration) or is_number(expiration)) and is_list(options),
     do: Router.call(cache, { :expire, [ key, expiration, options ] })
@@ -677,7 +689,7 @@ defmodule Cachex do
       { :commit, "yek_gnissim" }
 
   """
-  @spec fetch(cache, any, function, Keyword.t) :: { status | :commit | :ignore, any }
+  @spec fetch(cache, any, function | nil, Keyword.t) :: { status | :commit | :ignore, any }
   def fetch(cache, key, fallback \\ nil, options \\ []) when is_list(options) do
     Overseer.enforce(cache) do
       case fallback || fallback(cache(cache, :fallback), :default) do

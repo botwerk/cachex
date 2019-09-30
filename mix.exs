@@ -1,7 +1,7 @@
 defmodule Cachex.Mixfile do
   use Mix.Project
 
-  @version "3.1.3"
+  @version "3.2.0"
   @url_docs "http://hexdocs.pm/cachex"
   @url_github "https://github.com/whitfin/cachex"
 
@@ -97,15 +97,15 @@ defmodule Cachex.Mixfile do
       { :sleeplocks,  "~> 1.1" },
       { :unsafe,      "~> 1.0" },
       # Testing dependencies
-      { :excoveralls,   "~> 0.8", optional: true, only: [ :cover ] },
-      { :local_cluster, "~> 1.0", optional: true, only: [ :cover, :test ] },
+      { :excoveralls,   "~> 0.11", optional: true, only: [ :cover ] },
+      { :local_cluster, "~> 1.1",  optional: true, only: [ :cover, :test ] },
       # Linting dependencies
-      { :credo, "~> 0.8", optional: true, only: [ :lint ] },
+      { :credo, "~> 1.1", optional: true, only: [ :lint ] },
       # Benchmarking dependencies
-      { :benchee,      "~> 0.14", optional: true, only: [ :bench ] },
-      { :benchee_html, "~> 0.6",  optional: true, only: [ :bench ] },
+      { :benchee,      "~> 1.0", optional: true, only: [ :bench ] },
+      { :benchee_html, "~> 1.0", optional: true, only: [ :bench ] },
       # Documentation dependencies
-      { :ex_doc, "~> 0.16", optional: true, only: [ :docs ] }
+      { :ex_doc, "~> 0.21", optional: true, only: [ :docs ] }
     ]
   end
 end
